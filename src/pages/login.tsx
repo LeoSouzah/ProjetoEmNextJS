@@ -1,16 +1,29 @@
 import Head from 'next/head'
-import { useCallback, useRef } from 'react'
+import { useCallback, useContext, useRef } from 'react'
+import { AutenticacaoContext } from '../contexts/AutenticacaoContext';
 
 export default function Login() {
 
     const refForm = useRef<any>();
+
+    const { logar } = useContext(AutenticacaoContext);
 
     const submitForm = useCallback((e) =>{
         //não renderiza a página quando executa o submit do formulário.
         e.preventDefault();
 
         if (refForm.current.checkValidity()) {
+            let obj: any = new Object;
 
+            for (let index = 0; index < refForm.current.length; index++) {
+                const id = refForm.current[index]?.id;
+                const value = refForm.current[index]?.value;
+
+                if (id == 'botao') break;
+                obj[id] = value;
+
+            }
+            logar(obj)
         } else {
             refForm.current.classList.add('was-validated')
         }
@@ -31,7 +44,7 @@ export default function Login() {
                 height: '100vh'
             }}
                 >
-                <div 
+                <div
                     style={{
                         border: 2,
                         borderColor: '#ccc',
@@ -80,7 +93,7 @@ export default function Login() {
                          </div>
 
                          <div className='col-md-12 mt-2'>
-                                <button className='btn btn-primary' type='submit' onClick={(e)=> submitForm(e)}>
+                                <button className='btn btn-primary' type='submit' onClick={(e)=> submitForm(e)} id="botao">
                                     Enviar
                                 </button>
 
