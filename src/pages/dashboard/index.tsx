@@ -2,7 +2,6 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { parseCookies } from "nookies";
 import { useEffect } from "react";
-import context from "react-bootstrap/esm/AccordionContext";
 import { Menu } from "../../components/Menu";
 
 export default function Dashboard() {
@@ -11,7 +10,7 @@ useEffect(() => {
 const {'painel-token': token } = parseCookies();
 
     console.log(token)
-},[]);
+}, []);
 
     return (
         <>
@@ -19,7 +18,17 @@ const {'painel-token': token } = parseCookies();
 
         </Head>
 
-            <Menu></Menu>
+            <Menu active="dashboard">
+                <>
+                    <div className={"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center" +
+                    "pt-3 pb-2 mb-3 border-bottom"}>
+                    <h2>Dashboard</h2>
+                        <div className={"btn-toolbar mb-2 mb-md-0"}>
+                            <button type="button">Teste</button>
+                        </div>
+                    </div>
+                </>
+            </Menu>
         </>
     )
 }

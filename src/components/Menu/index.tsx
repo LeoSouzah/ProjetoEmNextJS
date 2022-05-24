@@ -1,4 +1,18 @@
-export const Menu = () => {
+import Link from "next/link"
+import { ReactNode } from "react"
+
+
+interface InterfaceProps {
+    children: ReactNode,
+    active: string;
+}
+
+
+export const Menu = ({
+    children,
+    active
+
+}: InterfaceProps) => {
 
     return (
         <>
@@ -22,21 +36,26 @@ export const Menu = () => {
                 <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
                     <ul className="nav flex-column">
                         <li className="nav-item">
-                            <a className="nav-link active" href="#">
+                        <Link href={'/dashboard'}>
+                            <a className={`nav-link ${active === 'dashboard' && 'active'}`} href="#">
                                 <span data-feather="home">
                                     Dashboard
                                 </span>
                             </a>
-                            <a className="nav-link" href="#">
+                            </Link>
+                            <Link href={'/usuario'}>
+                            <a className={`nav-link ${active === 'usuario' && 'active'}`} href="#">
                                 <span data-feather="home">
                                     Usuário
                                 </span>
                             </a>
+                            </Link>
                         </li>
                     </ul>
                 </nav>
-                <main className="col-md-9 ms-sm-auto px-md-4">
+                <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 
+                    {children}
                 </main>
             </div>
         </div>

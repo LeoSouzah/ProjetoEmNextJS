@@ -1,4 +1,8 @@
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import { useRouter } from 'next/router'
+import { parseCookies } from 'nookies';
+import { Menu } from '../../components/Menu';
 
 export default function Usuario() {
 
@@ -6,12 +10,39 @@ export default function Usuario() {
 
     return (
         <>
-            <h1>Usuario</h1>
-            <button onClick={() => {
+            <Head>
+                <title>Usuário</title>
+            </Head>
 
-                router.push('/dashboard/paraguai');
-
-            }}>Ir para o dashboard</button>
+            <Menu active="usuario">
+                <></>
+            </Menu>
         </>
     )
+
 }
+
+export const getServerSideProps: GetServerSideProps = async (contexto) => {
+
+    const {'painel-token': token} = parseCookies(contexto);
+
+    console.log('token')
+
+    if (!token) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false
+            }
+        }
+    }
+    return {
+        props: {
+
+        }
+    }
+}
+
+
+
+
