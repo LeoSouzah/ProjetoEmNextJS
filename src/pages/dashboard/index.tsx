@@ -2,15 +2,22 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { parseCookies } from "nookies";
 import { useEffect } from "react";
+import { Interface } from "readline";
 import { Menu } from "../../components/Menu";
+import { validaPermissao } from "../../services/validaPermissao";
 
-export default function Dashboard() {
+
+interface interfProps {
+    token?: string;
+}
+
+export default function Dashboard(props: interfProps) {
 
 useEffect(() => {
-const {'painel-token': token } = parseCookies();
 
-    console.log(token)
-}, []);
+    console.log(props)
+
+}, [])
 
     return (
         <>
@@ -18,7 +25,7 @@ const {'painel-token': token } = parseCookies();
 
         </Head>
 
-            <Menu active="dashboard">
+            <Menu active="dashboard" token={props.token}>
                 <>
                     <div className={"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center" +
                     "pt-3 pb-2 mb-3 border-bottom"}>
@@ -49,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async (contexto) => {
     }
     return {
         props: {
-
+            token
         }
     }
 }

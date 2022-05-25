@@ -1,16 +1,19 @@
 import Link from "next/link"
 import { ReactNode } from "react"
+import { validaPermissao } from "../../services/validaPermissao";
 
 
 interface InterfaceProps {
     children: ReactNode,
     active: string;
+    token?: string;
 }
 
 
 export const Menu = ({
     children,
-    active
+    active,
+    token
 
 }: InterfaceProps) => {
 
@@ -35,6 +38,9 @@ export const Menu = ({
             <div className="row">
                 <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
                     <ul className="nav flex-column">
+                        {
+                            validaPermissao(token, ['admin', 'colaborador']) &&
+
                         <li className="nav-item">
                         <Link href={'/dashboard'}>
                             <a className={`nav-link ${active === 'dashboard' && 'active'}`} href="#">
@@ -43,6 +49,11 @@ export const Menu = ({
                                 </span>
                             </a>
                             </Link>
+                            </li>
+                        }
+                        {
+                            validaPermissao(token, ['admin']) &&
+                            <li className="nav-item">
                             <Link href={'/usuario'}>
                             <a className={`nav-link ${active === 'usuario' && 'active'}`} href="#">
                                 <span data-feather="home">
@@ -51,6 +62,7 @@ export const Menu = ({
                             </a>
                             </Link>
                         </li>
+                        }
                     </ul>
                 </nav>
                 <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
