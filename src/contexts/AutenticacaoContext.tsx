@@ -1,52 +1,57 @@
+import axios from "axios";
 import { useRouter } from "next/router";
-import { createContext, ReactNode, useState } from "react";
-import { setCookie } from 'nookies'
-import api from "../services/request";
+import { createContext , ReactNode, useState } from "react";
+import { setCookie} from 'nookies';
+import api from "../services/request"
 
-interface InterDados {
+interface InterDados{
     email: string;
     senha: string;
 }
 
-interface InterAutenticacaoContext {
-    logar(dados: InterDados): Promise<void>;
+interface InterfaceAutenticacaoContext{
+    logar(dados): Promise<void>;
 }
 
-export const AutenticacaoContext = createContext({} as InterAutenticacaoContext);
+export const AutenticacaoContext = createContext({} as InterfaceAutenticacaoContext);
 
-interface InterProviderProps {
+interface InterfaceProviderProps{
     children: ReactNode;
 }
 
-export function AutenticacaoProvider({children}: InterProviderProps){
+export function AutenticacaoProvider({children}: InterfaceProviderProps){
+const router = useRouter();
+const [usuario, setUsuario] = useState();
 
-    const [usuario, setUsuario] = useState();
-    const router = useRouter();
+async function logar(dados: InterDados) {
+    try {
+        let resultado = await api.post('/login', dados);
 
-    async function logar(dados: InterDados) {
-        try {
-           let resultado = await api.post('/api/login', dados)
+        console.log(resultado);
+        setCookie(
+            undefined,
+            'painel-token',
+            resultado.data.token,
 
-            console.log(resultado.data)
 
-            setCookie(
-                undefined,
-                'painel-token',
-                resultado.data.token
-            )
+        )
 
-           router.push('/dashboard');
 
-        } catch (error) {
+        router.push('/dashboard');
 
-        }
+
+
+    } catch (error) {
+
     }
+}
 
-    return (
 
+    return(
         <AutenticacaoContext.Provider value={{logar}}>
             {children}
         </AutenticacaoContext.Provider>
-
     )
 }
+
+

@@ -1,15 +1,15 @@
 import Head from 'next/head'
-import { useCallback, useContext, useRef } from 'react'
+import { FormEvent, useCallback, useContext, useRef } from 'react'
 import { AutenticacaoContext } from '../contexts/AutenticacaoContext';
 
 export default function Login() {
 
     const refForm = useRef<any>();
 
-    const { logar } = useContext(AutenticacaoContext);
+    const {logar} = useContext(AutenticacaoContext);
 
-    const submitForm = useCallback((e) =>{
-        //não renderiza a página quando executa o submit do formulário.
+    const submitForm = useCallback((e: FormEvent) => {
+        //não renderiza a pagina quando executa o submit do formulario
         e.preventDefault();
 
         if (refForm.current.checkValidity()) {
@@ -19,31 +19,39 @@ export default function Login() {
                 const id = refForm.current[index]?.id;
                 const value = refForm.current[index]?.value;
 
-                if (id == 'botao') break;
+                if (id === "botao")break;
                 obj[id] = value;
 
             }
-            logar(obj)
+
+
+            logar(obj);
+
+
         } else {
             refForm.current.classList.add('was-validated')
         }
 
-    },[])
+    }, [])
+
+
 
     return (
         <>
             <Head>
                 <title>Login</title>
             </Head>
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100vw',
-                height: '100vh'
-            }}
-                >
+
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100vw',
+                    height: '100vh'
+                }}
+            >
                 <div
                     style={{
                         border: 2,
@@ -55,48 +63,87 @@ export default function Login() {
                     }}
                 >
                     <div
-                    style={{
-                        alignItems: 'center'
-                    }}
-                >
-                <h1 style={{color: "#0d6efd"}}>
-                        Login
-                </h1>
-                <p>
-                        Digite seus dados para entrar no Sistema.
-                </p>
-
+                        style={{
+                            alignItems: 'center'
+                        }}
+                    >
+                        <h1
+                            style={{ color: "#0d6efd" }}
+                        >
+                            Login
+                        </h1>
+                        <p>
+                            Digite seus dados para entrar no sistema!
+                        </p>
                     </div>
                     <hr />
+
+
                     <form
-                    className='row g-3 needs-validation'
-                    noValidate
-                    ref={refForm}
+                        className='row g-3 needs-validation'
+                        noValidate
+                        ref={refForm}
                     >
-                        <div className='col-md-12'>
-                            <label htmlFor='email' className='form-label'>E-Mail:</label>
-                            <div className='input-group has-validation'>
-                                <span className='input-group-text'>@</span>
-                                <input type='email' className='form-control' placeholder='Digite seu E-Mail' id="email" required />
+                        <div
+                            className='col-md-12'
+                        >
+                            <label
+                                htmlFor='email'
+                                className='form-label'
+                            >
+                                Email
+                            </label>
+                            <div
+                                className='input-group has-validation'
+                            >
+                                <span
+                                    className='input-group-text'
+                                >@</span>
+                                <input
+                                    type='email'
+                                    className='form-control'
+                                    placeholder='Digite o email'
+                                    id="email"
+                                    required
+                                />
                                 <div className='invalid-feedback'>
-                                    Por favor digite seu e-mail.
+                                    Por favor digite seu email.
                                 </div>
                             </div>
                         </div>
-
-                        <div className='col-md-12'>
-                               <label htmlFor='senha' className='form-label'>Senha</label>
-                               <input type='password' className='form-control' placeholder='Digite sua Senha' id="senha" required />
-                               <div className='invalid-feedback'>
-                                   Por favor digite sua senha.
-                               </div>
-                         </div>
-
-                         <div className='col-md-12 mt-2'>
-                                <button className='btn btn-primary' type='submit' onClick={(e)=> submitForm(e)} id="botao">
-                                    Enviar
-                                </button>
-
+                        <div
+                            className='col-md-12'
+                        >
+                            <label
+                                htmlFor='senha'
+                                className='form-label'
+                            >
+                                Senha
+                            </label>
+                            <input
+                                type="password"
+                                className='form-control'
+                                placeholder='Digite sua senha'
+                                id="senha"
+                                required
+                            />
+                            <div
+                                className='invalid-feedback'
+                            >
+                                Por favor digite sua senha.
+                            </div>
+                        </div>
+                        <div
+                            className='col-md-12'
+                        >
+                            <button
+                                className='btn btn-primary mt-3'
+                                type='submit'
+                                onClick={(e) => submitForm(e)}
+                                id="botao"
+                            >
+                                Enviar
+                            </button>
                         </div>
                     </form>
                 </div>

@@ -1,28 +1,27 @@
-import jwt_decode from 'jwt-decode'
+import jwt_decode from 'jwt-decode';
 
-export const validaPermissao = (
+export const validaPermissao = (token: string| undefined, permissao: Array<string>):boolean =>{
+    if(token){
+        const user = jwt_decode<[
+            id: number,
+            nome: string,
+            email: string,
+            permissao: string,
+        ]>(token);
 
-    token: string | undefined,
-    permissao: Array<string>
 
-    ):boolean => {
 
-        if (token) {
-            const user = jwt_decode<{
-                email: string
-                id: number
-                nome: string
-                permissoes: string
-            }>(token);
+        const temPermissao = permissao.includes(user.permissao);
 
-            const temPermissao = permissao.includes(user.permissoes);
-
-            if(temPermissao){
-                return true;
-            } else {
-                return false;
-            }
+        if (temPermissao) {
+            return true;
         }
+
+
+
+
+    }
 
     return false;
 }
+

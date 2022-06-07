@@ -1,36 +1,30 @@
-import { GetServerSideProps } from "next";
-import Head from "next/head";
+
+import {Menu} from "../../components/Menu"
+import Head from "next/head"
+import { useEffect } from "react"
 import { parseCookies } from "nookies";
-import { useEffect } from "react";
-import { Interface } from "readline";
-import { Menu } from "../../components/Menu";
+import { GetServerSideProps } from "next";
 import { validaPermissao } from "../../services/validaPermissao";
 
-
-interface interfProps {
+interface interfaceProps{
     token?: string;
 }
 
-export default function Dashboard(props: interfProps) {
+export default function Dashboard(props: interfaceProps) {
 
-useEffect(() => {
 
-    console.log(props)
-
-}, [])
 
     return (
         <>
-        <Head>
+            <Head>
+                <title>Dashboard</title>
 
-        </Head>
-
+            </Head>
             <Menu active="dashboard" token={props.token}>
                 <>
-                    <div className={"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center" +
-                    "pt-3 pb-2 mb-3 border-bottom"}>
-                    <h2>Dashboard</h2>
-                        <div className={"btn-toolbar mb-2 mb-md-0"}>
+                    <div className={"d-flex justify-content-between flex-wrap  flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"}>
+                        <h2>DashBoard</h2>
+                        <div className={"btn-toolbar mb-2 mb-0 "}>
                             <button type="button">Teste</button>
                         </div>
                     </div>
@@ -40,22 +34,24 @@ useEffect(() => {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async (contexto) => {
+
+//lado back and next
+export const getServerSideProps: GetServerSideProps = async (contexto)=>{
 
     const {'painel-token': token} = parseCookies(contexto);
-
-    console.log('token')
+    console.log(token);
 
     if (!token) {
-        return {
-            redirect: {
-                destination: '/login',
-                permanent: false
+            return{
+                redirect:{
+                    destination: '/login',
+                    permanent: false
+                }
             }
-        }
     }
+
     return {
-        props: {
+        props : {
             token
         }
     }

@@ -11,5 +11,6 @@ export default (
         return res.status(200).json({id: req.query.id})
     }
 
-    return res.status(404)
+    return res.status(404).json({erro: 'pagina nao encontrada'});
+    
 }
